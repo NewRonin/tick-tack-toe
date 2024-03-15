@@ -6,6 +6,7 @@ export const useGameStore = defineStore('gameStore', () => {
   const cells : Ref<Array<Number>> = ref([])
   const getTurn = computed(() => turn.value)
   const getCells = computed(() : Array<Number> => cells.value)
+  const getCell = computed(() => ({ index } : {index: number}) => cells.value[index])
   function nextTurn() {
     turn.value = (turn.value % 2) + 1 
   }
@@ -18,5 +19,12 @@ export const useGameStore = defineStore('gameStore', () => {
     cells.value[id] = newCell
   }
 
-  return { turn, getTurn, getCells, nextTurn, addCell, changeCell}
+  function clearCells(){
+    turn.value = 1;
+    for (let i = 0; i < cells.value.length; i++){
+      cells.value[i] = 0
+    }
+  }
+
+  return { turn, cells, getTurn, getCell, getCells, nextTurn, addCell, changeCell, clearCells}
 })

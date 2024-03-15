@@ -14,7 +14,7 @@
 import CPlayCell from './CPlayCell.vue'
 import { useGameStore } from '@/stores/gameStore'
 
-const emit = defineEmits(['endingWon'])
+const emit = defineEmits(['endingWon', 'endingDraw'])
 
 const props = defineProps({
   fieldSize: {
@@ -28,6 +28,7 @@ const store = useGameStore()
 for (let i = 0; i < props.fieldSize; i++){
   store.addCell(0)
 }
+
 
 function checkField(): void {
   const bound = Math.sqrt(props.fieldSize)
@@ -116,6 +117,11 @@ function checkField(): void {
   if (won) {
     emit('endingWon', fieldArray[bound - 1])
     return
+  }
+
+  //check for draw
+  if (!fieldArray.includes(0)){
+    emit('endingDraw')
   }
 
 }
