@@ -3,20 +3,25 @@
         <CPlayField
         @endingWon="wonMessage"
         ></CPlayField>
-        <div v-if="ending">
-            {{ ending }}
-        </div>
+
+        <CAlert v-if="ending"
+        :messageTitle="'GAME OVER'"
+        :messageBody="ending"
+        >
+            
+        </CAlert>
     </div>
 </template>
 
 <script setup lang="ts">
+import CAlert from '@/components/CAlert.vue';
 import CPlayField from '@/components/CPlayField.vue';
 import { ref } from 'vue'
 
 const ending = ref('')
 
 function wonMessage(player : number){
-    ending.value = player.toString()
+    ending.value =  `Player ${player === 1 ? 'O' : 'X'} has won!`
 }
 
 </script>
@@ -30,7 +35,7 @@ function wonMessage(player : number){
         justify-content: center;
         align-items: center;
 
-        * {
+        .container-playfield {
             @media screen and (orientation: landscape) {
                 height: 60%;
                 aspect-ratio: 1/1;
@@ -40,6 +45,12 @@ function wonMessage(player : number){
                 width: 60%;
                 aspect-ratio: 1/1;
             }
+         }
+
+         .container-alert{
+            position: absolute;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
          }
     }
 </style>
